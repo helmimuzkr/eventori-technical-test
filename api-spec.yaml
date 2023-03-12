@@ -1,0 +1,454 @@
+openapi: "3.0.2"
+info:
+    title: Eventori Technical Test
+    version: "1.0"
+servers:
+    - url: http://localhost:8000
+      description: Base URL
+tags:
+    - name: models
+paths:
+    /models/list:
+        get:
+            tags:
+                - "models"
+            description: Get list of models
+            summary: Get list of models
+            responses:
+                200:
+                    description: Success get list of models
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                id:
+                                                    type: integer
+                                                model_name:
+                                                    type: string
+                                                image_url:
+                                                    type: string
+                                                description:
+                                                    type: string
+                                                schedules:
+                                                    type: array
+                                                    items:
+                                                        type: object
+                                                        properties:
+                                                            id:
+                                                                type: integer
+                                                            model_id:
+                                                                type: integer
+                                                            schedule_date:
+                                                                type: string
+                                                                format: date
+                                    status:
+                                        type: string
+                                    message:
+                                        type: string
+                            example:
+                                data:
+                                    - id: 1
+                                      model_name: model 1
+                                      image_url: "https://images.unsplash.com/photo-1633157953349-75c66213ca2f"
+                                      description: model description
+                                      schedules:
+                                          - id: 1
+                                            model_id: 1
+                                            schedule_date: 2021-12-12
+                                status: "success"
+                                message: "Get list of models successfully"
+                404:
+                    $ref: "#/components/responses/404"
+                500:
+                    $ref: "#/components/responses/500"
+    /models/create:
+        post:
+            tags:
+                - "models"
+            summary: Create new model
+            description: Create new model
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                model_name:
+                                    type: string
+                                    example: model 1
+                                image_url:
+                                    type: string
+                                    example: "https://images.unsplash.com/photo-1633157953349-75c66213ca2f"
+                                description:
+                                    type: string
+                                    example: model description
+            responses:
+                201:
+                    description: Success create new model
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    status:
+                                        type: string
+                                        example: success
+                                    message:
+                                        type: string
+                                        example: Model created successfully
+                400:
+                    $ref: "#/components/responses/400"
+                404:
+                    $ref: "#/components/responses/404"
+                500:
+                    $ref: "#/components/responses/500"
+    /models/{model_id}:
+        get:
+            tags:
+                - "models"
+            description: Get model data by model id
+            summary: Get model data by model id
+            parameters:
+                - name: model_id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                      example: 1
+            responses:
+                200:
+                    description: Success get model data by model id
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: object
+                                        properties:
+                                            id:
+                                                type: integer
+                                            model_name:
+                                                type: string
+                                            image_url:
+                                                type: string
+                                            description:
+                                                type: string
+                                            schedules:
+                                                type: array
+                                                items:
+                                                    type: object
+                                                    properties:
+                                                        id:
+                                                            type: integer
+                                                        model_id:
+                                                            type: integer
+                                                        schedule_date:
+                                                            type: string
+                                                            format: date
+                                    status:
+                                        type: string
+                                    message:
+                                        type: string
+                            example:
+                                data:
+                                    id: 1
+                                    model_name: model 1
+                                    image_url: "https://images.unsplash.com/photo-1633157953349-75c66213ca2f"
+                                    description: model description
+                                    schedules:
+                                        - id: 1
+                                          model_id: 1
+                                          schedule_date: 2021-12-12
+                                status: "success"
+                                message: "Get model successfully"
+                404:
+                    $ref: "#/components/responses/404"
+                500:
+                    $ref: "#/components/responses/500"
+        delete:
+            tags:
+                - "models"
+            description: Delete model data by model id
+            summary: Delete model data by model id
+            parameters:
+                - name: model_id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                      example: 1
+            responses:
+                200:
+                    description: Success delete data model by model id
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    status:
+                                        type: string
+                                        example: success
+                                    message:
+                                        type: string
+                                        example: Model deleted successfully
+                404:
+                    $ref: "#/components/responses/404"
+                500:
+                    $ref: "#/components/responses/500"
+    /models/update/{model_id}:
+        patch:
+            tags:
+                - "models"
+            description: Update model data by model id
+            summary: Update model data by model id
+            parameters:
+                - name: model_id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                      example: 1
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                model_name:
+                                    type: string
+                                    example: model 1
+                                image_url:
+                                    type: string
+                                    example: "https://images.unsplash.com/photo-1633157953349-75c66213ca2f"
+                                description:
+                                    type: string
+                                    example: model description
+            responses:
+                200:
+                    description: Success update data model
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    status:
+                                        type: string
+                                        example: success
+                                    message:
+                                        type: string
+                                        example: Model updated successfully
+                400:
+                    $ref: "#/components/responses/400"
+                404:
+                    $ref: "#/components/responses/404"
+                500:
+                    $ref: "#/components/responses/500"
+    /models/schedules/{model_id}:
+        get:
+            tags:
+                - "schedules"
+            summary: Get list of schedules by model id
+            description: Get list of schedules by model id
+            parameters:
+                - name: model_id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                      example: 1
+            responses:
+                200:
+                    description: Success get list of schedules by model id
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    data:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                id:
+                                                    type: integer
+                                                model_id:
+                                                    type: integer
+                                                schedule_date:
+                                                    type: string
+                                                    format: date
+                                    status:
+                                        type: string
+                                    message:
+                                        type: string
+                            example:
+                                data:
+                                    - id: 1
+                                      model_id: 1
+                                      schedule_date: 2021-12-12
+                                status: success
+                                message: Get list of schedules by model id successfully
+                404:
+                    $ref: "#/components/responses/404"
+                500:
+                    $ref: "#/components/responses/500"
+    /models/schedules/create:
+        post:
+            tags:
+                - "schedules"
+            summary: Create new schedule for model
+            description: Create new schedule for model
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                model_id:
+                                    type: integer
+                                    example: 1
+                                schedule_date:
+                                    type: string
+                                    format: date
+                                    example: 2021-12-12
+            responses:
+                201:
+                    description: Success create new model
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    status:
+                                        type: string
+                                        example: success
+                                    message:
+                                        type: string
+                                        example: Schedule created successfully
+                400:
+                    $ref: "#/components/responses/400"
+                404:
+                    $ref: "#/components/responses/404"
+                500:
+                    $ref: "#/components/responses/500"
+    /models/schedules/{schedule_id}:
+        patch:
+            tags:
+                - "schedules"
+            description: Update schedule data by schedule id
+            summary: Update schedule data by schedule id
+            parameters:
+                - name: schedule_id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                      example: 1
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                model_id:
+                                    type: integer
+                                    example: 1
+                                schedule_date:
+                                    type: string
+                                    format: date
+                                    example: 2021-12-12
+            responses:
+                200:
+                    description: Success update data schedule
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    status:
+                                        type: string
+                                        example: success
+                                    message:
+                                        type: string
+                                        example: Schedule updated successfully
+                404:
+                    $ref: "#/components/responses/404"
+                500:
+                    $ref: "#/components/responses/500"
+        delete:
+            tags:
+                - "schedules"
+            description: Delete schedule data by schedule id
+            summary: Delete schedule data by schedule id
+            parameters:
+                - name: schedule_id
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                      example: 1
+            responses:
+                200:
+                    description: Success delete data schedule by schedule id
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    status:
+                                        type: string
+                                        example: success
+                                    message:
+                                        type: string
+                                        example: Schedule deleted successfully
+                404:
+                    $ref: "#/components/responses/404"
+                500:
+                    $ref: "#/components/responses/500"
+components:
+    responses:
+        400:
+            description: Bad request
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            status:
+                                type: string
+                                example: bad request
+                            message:
+                                type: string
+                                example: Bad request
+        404:
+            description: Not found
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            status:
+                                type: string
+                                example: not found
+                            message:
+                                type: string
+                                example: Not found
+        500:
+            description: Internal server error
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            status:
+                                type: string
+                                example: internal server error
+                            message:
+                                type: string
+                                example: Internal server error
