@@ -7,6 +7,7 @@ servers:
       description: Base URL
 tags:
     - name: models
+    - name: schedules
 paths:
     /models/list:
         get:
