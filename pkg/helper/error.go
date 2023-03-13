@@ -16,7 +16,10 @@ func (ce ErrorCustom) Error() string {
 	return ce.Message
 }
 
-func ErrorResponse(err error) (int, map[string]string) {
+func ErrorResponse(err error) (int, map[string]interface{}) {
 	errorCustom := err.(ErrorCustom)
-	return errorCustom.Code, map[string]string{"message": errorCustom.Message}
+	return errorCustom.Code, map[string]interface{}{
+		"message": errorCustom.Message,
+		"status":  errorCustom.Code,
+	}
 }

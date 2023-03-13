@@ -76,16 +76,16 @@ paths:
             description: Create new model
             requestBody:
                 content:
-                    application/json:
+                    multipart/form-data:
                         schema:
                             type: object
                             properties:
                                 model_name:
                                     type: string
                                     example: model 1
-                                image_url:
+                                image:
                                     type: string
-                                    example: "https://images.unsplash.com/photo-1633157953349-75c66213ca2f"
+                                    format: binary
                                 description:
                                     type: string
                                     example: model description
@@ -218,16 +218,16 @@ paths:
                       example: 1
             requestBody:
                 content:
-                    application/json:
+                    multipart/form-data:
                         schema:
                             type: object
                             properties:
                                 model_name:
                                     type: string
                                     example: model 1
-                                image_url:
+                                image:
                                     type: string
-                                    example: "https://images.unsplash.com/photo-1633157953349-75c66213ca2f"
+                                    format: binary
                                 description:
                                     type: string
                                     example: model description

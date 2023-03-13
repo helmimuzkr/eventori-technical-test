@@ -1,8 +1,9 @@
 package repository
 
 import (
+	"errors"
 	"eventori/internal/catalogue"
-	"eventori/pkg/helper"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -22,21 +23,51 @@ func (cr *catalogueRepository) GetList() ([]catalogue.Core, error) {
 		return nil, tx.Error
 	}
 
-	catalogueCores := []catalogue.Core{}
-	helper.CopyStruct(&catalogueCores, &catalogueModels)
-
-	return catalogueCores, nil
+	return ToCores(catalogueModels...), nil
 }
 
 func (cr *catalogueRepository) Create(catalogueCore catalogue.Core) error {
+	catalogueModel := ToModel(catalogueCore)
+	fmt.Println("========= CORE =========", catalogueCore)
+	tx := cr.db.Create(&catalogueModel)
+	if tx.Error != nil {
+		return tx.Error
+	}
+	fmt.Println("========= MODEL =========", catalogueModel)
+
 	return nil
 }
+
 func (cr *catalogueRepository) GetByID(modelID int) (catalogue.Core, error) {
-	return catalogue.Core{}, nil
+	catalogueModel := ModelCatalogue{}
+	tx := cr.db.Preload("Schedules").First(&catalogueModel, modelID)
+	if tx.Error != nil {
+		return catalogue.Core{}, tx.Error
+	}
+	return ToCores(catalogueModel)[0], nil
 }
-func (cr *catalogueRepository) Update(modelID int) error {
+
+func (cr *catalogueRepository) Update(modelID int, catalogueCore catalogue.Core) error {
+	catalogueModel := ToModel(catalogueCore)
+	tx := cr.db.Where("id = ?", modelID).Updates(&catalogueModel)
+	if tx.Error != nil {
+		return tx.Error
+	}
+	if tx.RowsAffected == 0 {
+		return errors.New("update failed because no rows affected")
+	}
+
 	return nil
 }
+
 func (cr *catalogueRepository) Delete(modelID int) error {
+	tx := cr.db.Delete(ModelCatalogue{}, modelID)
+	if tx.Error != nil {
+		return tx.Error
+	}
+	if tx.RowsAffected == 0 {
+		return errors.New("delete failed because no rows affected")
+	}
+
 	return nil
 }

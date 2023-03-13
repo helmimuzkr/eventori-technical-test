@@ -1,7 +1,7 @@
 package catalogue
 
 import (
-	"time"
+	"mime/multipart"
 
 	"github.com/labstack/echo/v4"
 )
@@ -12,11 +12,13 @@ type Core struct {
 	ImageURL    string
 	Description string
 
-	Schedules []struct {
-		ID           int
-		ModelID      int
-		ScheduleDate *time.Time
-	}
+	Schedules []Schedule
+}
+
+type Schedule struct {
+	ID           int
+	ModelID      int
+	ScheduleDate string
 }
 
 type Handler interface {
@@ -29,9 +31,9 @@ type Handler interface {
 
 type Service interface {
 	GetList() ([]Core, error)
-	Create(catalogueCore Core) error
+	Create(catalogueCore Core, image *multipart.FileHeader) error
 	GetByID(modelID int) (Core, error)
-	Update(modelID int) error
+	Update(modelID int, catalogueCore Core, image *multipart.FileHeader) error
 	Delete(modelID int) error
 }
 
@@ -39,6 +41,6 @@ type Repository interface {
 	GetList() ([]Core, error)
 	Create(catalogueCore Core) error
 	GetByID(modelID int) (Core, error)
-	Update(modelID int) error
+	Update(modelID int, catalogueCore Core) error
 	Delete(modelID int) error
 }

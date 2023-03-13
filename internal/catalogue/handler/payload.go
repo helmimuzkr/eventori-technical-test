@@ -1,8 +1,6 @@
 package handler
 
-import "time"
-
-type CatalogueResponse struct {
+type catalogueResponse struct {
 	ID          int    `json:"id"`
 	ModelName   string `json:"model_name"`
 	ImageURL    string `json:"image_url"`
@@ -12,7 +10,12 @@ type CatalogueResponse struct {
 }
 
 type Schedule struct {
-	ID           int        `json:"id"`
-	ModelID      int        `json:"model_id"`
-	ScheduleDate *time.Time `json:"schedule_date"`
+	ID           int    `json:"id"`
+	ModelID      int    `json:"model_id"`
+	ScheduleDate string `json:"schedule_date"`
+}
+
+type catalogueRequest struct {
+	ModelName   string `json:"model_name" form:"model_name"`
+	Description string `json:"description" form:"description"`
 }

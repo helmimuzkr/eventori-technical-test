@@ -14,10 +14,10 @@ type WithPagination struct {
 	Message    string             `json:"message"`
 }
 
-func SuccessResponse(code int, message string, status string, data ...any) (int, map[string]interface{}) {
+func SuccessResponse(code int, message string, data ...any) (int, map[string]interface{}) {
 	response := make(map[string]interface{})
 	response["message"] = message
-	response["status"] = status
+	response["status"] = code
 
 	for _, v := range data {
 		response["data"] = v

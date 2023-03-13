@@ -12,6 +12,10 @@ type Config struct {
 	DBHost     string `mapstructure:"DB_HOST"`
 	DBPort     int    `mapstructure:"DB_PORT"`
 	DBName     string `mapstructure:"DB_NAME"`
+
+	CloudinaryName      string `mapstructure:"CLOUDINARY_NAME"`
+	CloudinaryApiKey    string `mapstructure:"CLOUDINARY_API_KEY"`
+	CloudinaryApiSecret string `mapstructure:"CLOUDINARY_API_SECRET"`
 }
 
 func InitConfig() *Config {
