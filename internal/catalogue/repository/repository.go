@@ -28,13 +28,11 @@ func (cr *catalogueRepository) GetList() ([]catalogue.Core, error) {
 
 func (cr *catalogueRepository) Create(catalogueCore catalogue.Core) error {
 	catalogueModel := ToModel(catalogueCore)
-	fmt.Println("========= CORE =========", catalogueCore)
 	tx := cr.db.Create(&catalogueModel)
 	if tx.Error != nil {
 		return tx.Error
 	}
-	fmt.Println("========= MODEL =========", catalogueModel)
-
+	
 	return nil
 }
 
@@ -44,6 +42,7 @@ func (cr *catalogueRepository) GetByID(modelID int) (catalogue.Core, error) {
 	if tx.Error != nil {
 		return catalogue.Core{}, tx.Error
 	}
+	
 	return ToCores(catalogueModel)[0], nil
 }
 
