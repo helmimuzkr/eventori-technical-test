@@ -3,7 +3,6 @@ package repository
 import (
 	"errors"
 	"eventori/internal/catalogue"
-	"fmt"
 
 	"gorm.io/gorm"
 )
